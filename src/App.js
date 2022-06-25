@@ -1,23 +1,39 @@
-import logo from './logo.svg';
 import './App.css';
 
+import axios from "axios"
+import { useState } from 'react';
+
 function App() {
+  const listType = ["education", "recreational", "social", "diy", "charity", "cooking", "relaxation", "music", "busywork"]
+  const [type,setType] = useState("education")
+  const onChange = (value) => {
+    console.log('selected ${value}');
+    setType(value);
+  };
+
+
+  // Make a request for a user with a given ID
+  axios.get('http://www.boredapi.com/api/activity/%27')
+    .then(function (response) {
+      // handle success
+      console.log(response.data);
+    })
+    .catch(function (error) {
+      // handle error
+      console.log(error);
+    })
+    .then(function () {
+      // always executed
+    });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='col-6'>
+
+      <select
+        onChange={e=>onChange(e.target.value)}
+>{listType.map(type =>
+        <option value={type}>{type}</option>)}
+      </select>
+      <h1>{type}</h1>
     </div>
   );
 }
